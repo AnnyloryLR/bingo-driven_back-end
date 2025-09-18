@@ -2,11 +2,19 @@
   "name": "bingo-back-end",
   "version": "1.0.0",
   "scripts": {
+    "build": "tsc",
+    "start": "npm run migration:run && node dist/src/server.js",
     "dev": "ts-node-dev src/server.ts",
+    "migration:run": "prisma migrate deploy",
     "test:load-envs": "dotenv -e .env.test",
     "test": "npm run test:load-envs -- jest -- --runInBand",
-    "test:migration": "npm run test:load-env prisma migrate deploy",
-    "test:coverage": "npm run test -- --coverage"
+    "test:ci": "npm run test:integration:migration:run && npm run test",
+    "test:coverage": "npm run test -- --coverage",
+    "test:integration": "npm run test:load-envs -- jest tests/integration -- --runInBand",
+    "test:integration:coverage": "npm run test:integration -- --coverage",
+    "test:integration:migration:run": "npm run test:load-envs prisma migrate deploy",
+    "test:unit": "jest tests/unit", 
+    "test:unit:coverage": "npm run test:unit -- --coverage"
   },
   "keywords": [],
   "author": "",

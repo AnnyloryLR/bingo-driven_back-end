@@ -6,12 +6,14 @@ services:
       - 5433:5432
     networks:
       - alr_network
-    env_file:
-      - backend/.env
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: alr_db
     volumes:
-      - myvolume:/var/lib/postgresql/data
+      - alr_volume:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -q -d alr_database -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -q -d alr_db -U postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -23,26 +25,26 @@ services:
       - 5000:5000
     networks:
       - alr_network
-    env_file:
-      - backend/.env
+    environment:
+      DATABASE_URL: "postgresql://postgres:password@alr_postgres:5432/alr_db?schema=public"
     depends_on:
-      - postgres:
+      postgres:
         condition: service_healthy
-  
   pgadmin:
-    image: dpage/admin4
+    image: dpage/pgadmin4
     container_name: alr_pgadmin
     ports:
-      - alr_network
+      - 15432:5432
     networks:
       - alr_network
     environment:
-      - PGADMIN_DEFAULT_EMAIL=annylory@gmail.com
-      - PGADMIN_DEFAULT_PASSWORD=postgres
-  networks:
-    mynetwork:
-      name: alr_network
-  volumes:
-    alr_volume:
+      PGADMIN_DEFAULT_EMAIL: anny@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+networks:
+  alr_network:
+    name: alr_network
+      
+volumes:
+  alr_volume:
 
 

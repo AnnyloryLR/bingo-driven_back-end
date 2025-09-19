@@ -8,6 +8,8 @@ services:
       - alr_network
     env_file:
       - backend/.env
+    volumes:
+      - myvolume:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -q -d alr_database -U postgres"]
       interval: 5s
@@ -26,4 +28,21 @@ services:
     depends_on:
       - postgres:
         condition: service_healthy
+  
+  pgadmin:
+    image: dpage/admin4
+    container_name: alr_pgadmin
+    ports:
+      - alr_network
+    networks:
+      - alr_network
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=annylory@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+  networks:
+    mynetwork:
+      name: alr_network
+  volumes:
+    myvolume:
+
 

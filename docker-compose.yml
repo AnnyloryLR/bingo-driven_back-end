@@ -43,6 +43,6 @@ services:
     mynetwork:
       name: alr_network
   volumes:
-    myvolume:
+    alr_volume:
 
 

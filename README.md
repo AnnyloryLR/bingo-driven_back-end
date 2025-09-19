@@ -12,3 +12,6 @@ Sistema para a administração de jogos de bingo.
 ## Tecnologias
 - Back-end: Node.js, Express, Typescript, Jest e Prisma.
 - Banco de dados: Postgres.
+
+## Link
+- https://bingo-driven-back-end.onrender.com

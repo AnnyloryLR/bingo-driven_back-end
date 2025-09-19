@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres
+    container_name: alr_postgres
+    ports:
+      - 5433:5432
+    networks:
+      - alr_network
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: alr_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -q -d alr_db -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  backend:
+    image: backend
+    container_name: bingo-driven_backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    networks:
+      - alr_network
+    environment:
+      DATABASE_URL: "postgresql://postgres:password@alr_postgres:5432/alr_db?schema=public"
+    depends_on:
+      postgres:
+        condition: service_healthy
+networks:
+  alr_network:
+    name: alr_network

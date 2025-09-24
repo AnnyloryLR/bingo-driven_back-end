@@ -18,7 +18,7 @@ services:
       timeout: 5s
       retries: 5
   backend:
-    image: backend
+    image: annylory/bingo-driven_backend
     container_name: alr_backend
     build: backend/
     ports:

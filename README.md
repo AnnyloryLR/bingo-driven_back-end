@@ -16,6 +16,9 @@ Sistema para a administração de jogos de bingo.
 ## Link
 - https://bingo-driven-back-end.onrender.com
 
+## Nome da imagem
+- annylory/bingo-driven_backend
+
 ## Usando o Docker para rodar todo o projeto manualmente
 Os passos para subir manualmente são:
 - Implementação do "Dockerfile" na raiz do projeto;

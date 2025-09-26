@@ -20,7 +20,7 @@ services:
   backend:
     image: backend
     container_name: alr_backend
-    build: backend/
+    build: bingo-driven_back-end/
     ports:
       - 5000:5000
     networks:

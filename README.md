@@ -68,7 +68,7 @@ O docker compose permite a automatização do processo para rodar o projeto atra
         <nome do serviço de back-end>:
             image: <nome da imagem>
             container_name: <nome do container>
-            build: back-end/ #por exemplo
+            build: bingo-driven_back-end/
             ports:
               - 5000:5000
             networks:

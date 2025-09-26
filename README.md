@@ -16,9 +16,6 @@ Sistema para a administração de jogos de bingo.
 ## Link
 - https://bingo-driven-back-end.onrender.com
 
-## Nome da imagem
-- annylory/bingo-driven_backend
-
 ## Usando o Docker para rodar todo o projeto manualmente
 Os passos para subir manualmente são:
 - Implementação do "Dockerfile" na raiz do projeto;
@@ -28,7 +25,7 @@ Os passos para subir manualmente são:
     $ docker network create <nome da rede>
 - Criar um volume:
     $ docker volume create <nome do volume>
-- Subir o banco de dados em container, neste caso o Postgres:
+- Subir o serviço de banco de dados em um container:
     $ docker run -d \
     > --name <nome do container> \
     > --network <nome da rede> \
@@ -49,7 +46,7 @@ Os passos para subir manualmente são:
     > postgres
 
 ## Usando o Docker Compose para rodar somente o back-end
-O docker compose permite a automatização do processo para rodar o projeto através da criação do arquivo "docker-compose.yml", nesse caso, subiremos os serviços do qual o back-end depende e o back-end (observando a identação):
+O docker compose permite a automatização do processo para rodar o projeto através da criação do arquivo "docker-compose.yml", neste caso, subiremos os serviços do qual o back-end depende e o back-end:
 
     services:
         <nome do serviço de banco de dados>:
@@ -60,7 +57,7 @@ O docker compose permite a automatização do processo para rodar o projeto atra
             networks:
               - <nome da rede>
             env_file: # ou "environment"
-              - <caminho do arquivo .env> # ou variáveis de ambiente, ex: POSTGRES_PASSWORD: <senha de escolha>
+              - <caminho/do/arquivo/.env> # ou variáveis de ambiente, ex: POSTGRES_PASSWORD: <senha de escolha>
             volumes:
               - <nome do volume>:caminho/para/persistencia/dos/dados # ex: <nome do volume>:/var/lib/postgresql/data
             healthcheck:

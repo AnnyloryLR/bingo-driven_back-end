@@ -66,9 +66,9 @@ O docker compose permite a automatização do processo para rodar o projeto atra
                 timeout: 5s #por exemplo
                 retries: 5 # número de tentativas
         <nome do serviço de back-end>:
-            image: <nome da imagem>
+            image: annylory/bingo-driven_backend/
             container_name: <nome do container>
-            build: bingo-driven_back-end/
+            build: annylory/bingo-driven_backend/
             ports:
               - 5000:5000
             networks:

@@ -20,7 +20,7 @@ Sistema para a administração de jogos de bingo.
 Os passos para subir manualmente são:
 - Implementação do "Dockerfile" na raiz do projeto;
 - Realizar o build da imagem:
-    $ docker build -t <nome da imagem>
+    $ docker build -t <nome da imagem> .
 - Criar uma rede para comunicação dos containers:
     $ docker network create <nome da rede>
 - Criar um volume:
@@ -36,7 +36,7 @@ Os passos para subir manualmente são:
     $ docker run -d \
     > --name <nome do container> \
     > --network <nome da rede> \
-    > -p 4000:4000 \
+    > -p 5000:5000 \
     > <nome da imagem>
 - Subir o front-end em um container:
     $ docker run -d \
@@ -46,6 +46,8 @@ Os passos para subir manualmente são:
     > postgres
 
 ## Usando o Docker Compose para rodar somente o back-end
+- Faça o build da imagem: docker build -t backend .
+
 O docker compose permite a automatização do processo para rodar o projeto através da criação do arquivo "docker-compose.yml", neste caso, subiremos os serviços do qual o back-end depende e o back-end:
 
     services:
@@ -56,8 +58,10 @@ O docker compose permite a automatização do processo para rodar o projeto atra
               - 5433:5432 # porta do host e porta padrão do banco de dados do postgres
             networks:
               - <nome da rede>
-            env_file: # ou "environment"
-              - <caminho/do/arquivo/.env> # ou variáveis de ambiente, ex: POSTGRES_PASSWORD: <senha de escolha>
+            environment:
+                POSTGRES_USER: postgres
+                POSTGRES_PASSWORD: <senha de escolha>
+                POSTGRES_DB: <nome do banco de dados>
             volumes:
               - <nome do volume>:/var/lib/postgresql/data
             healthcheck:
@@ -66,9 +70,9 @@ O docker compose permite a automatização do processo para rodar o projeto atra
                 timeout: 5s
                 retries: 5
         <nome do serviço de back-end>:
-            image: annylory/bingo-driven_backend
+            image: backend
             container_name: <nome do container>
-            build: annylory/bingo-driven_backend/
+            build: backend/
             ports:
               - 5000:5000
             networks:
@@ -76,8 +80,7 @@ O docker compose permite a automatização do processo para rodar o projeto atra
             depends_on:
                 <nome do serviço de banco de dados>:
                     condition: service_healthy
-            env_file: # ou "environment"
-              - <caminho/do/arquivo/.env> # ou variáveis de ambiente, ex: POSTGRES_PASSWORD: <senha de escolha>
+            DATABASE_URL: "postgresql://postgres:<senha de escolha>@<nome do serviço de banco de dados>:5432/<nome do banco de dados>?schema=public"
      
     networks:
         <nome da rede>:

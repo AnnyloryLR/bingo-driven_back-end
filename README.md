@@ -19,31 +19,24 @@ Sistema para a administração de jogos de bingo.
 ## Usando o Docker para rodar todo o projeto manualmente
 Os passos para subir manualmente são:
 - Implementação do "Dockerfile" na raiz do projeto;
+
 - Realizar o build da imagem:
-    $ docker build -t <nome da imagem> .
+    $ docker build -t nomedaimagem .
+
 - Criar uma rede para comunicação dos containers:
-    $ docker network create <nome da rede>
+    $ docker network create nomedarede
+
 - Criar um volume:
-    $ docker volume create <nome do volume>
+    $ docker volume create nomedovolume
+
 - Subir o serviço de banco de dados em um container:
-    $ docker run -d \
-    > --name <nome do container> \
-    > --network <nome da rede> \
-    > -e POSTGRES_PASSWORD=<senha de escolha> \
-    > -p 5433:5432 \
-    > postgres
+    $ docker run -d --name nomedocontainer --network nomedarede -e POSTGRES_PASSWORD=senhadeescolha -p 5433:5432 postgres
+
 - Subir o back-end em um container:
-    $ docker run -d \
-    > --name <nome do container> \
-    > --network <nome da rede> \
-    > -p 5000:5000 \
-    > <nome da imagem>
+    $ docker run -d --name nomedocontainer --network nomedarede -p 5000:5000 nomedaimagem
+
 - Subir o front-end em um container:
-    $ docker run -d \
-    > --name <nome do container> \
-    > --network <nome da rede> \
-    > -p 8000:80 \
-    > postgres
+    $ docker run -d --name nomedocontainer --network nomedarede -p 8000:80 nomedofrontend
 
 ## Usando o Docker Compose para rodar somente o back-end
 - Faça o build da imagem: docker build -t backend .

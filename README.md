@@ -50,23 +50,23 @@ O docker compose permite a automatização do processo para rodar o projeto atra
 
     services:
         <nome do serviço de banco de dados>:
-            image: <nome da imagem>
+            image: postgres
             container_name: <nome do container>
             ports:
-              - 5433:5432 (porta do host e porta do serviço, no caso, o postgres)
+              - 5433:5432 # porta do host e porta padrão do banco de dados do postgres
             networks:
               - <nome da rede>
             env_file: # ou "environment"
               - <caminho/do/arquivo/.env> # ou variáveis de ambiente, ex: POSTGRES_PASSWORD: <senha de escolha>
             volumes:
-              - <nome do volume>:caminho/para/persistencia/dos/dados # ex: <nome do volume>:/var/lib/postgresql/data
+              - <nome do volume>:/var/lib/postgresql/data
             healthcheck:
-                test: ["CMD-SHELL", "<mensagem de confirmação do healthcheck> -q -d <nome da database> -U <nome do serviço>"]
-                interval: 5s #por exemplo
-                timeout: 5s #por exemplo
-                retries: 5 # número de tentativas
+                test: ["CMD-SHELL", "pg_isready -q -d alr_db -U postgres"]
+                interval: 5s
+                timeout: 5s
+                retries: 5
         <nome do serviço de back-end>:
-            image: annylory/bingo-driven_backend/
+            image: annylory/bingo-driven_backend
             container_name: <nome do container>
             build: annylory/bingo-driven_backend/
             ports:
